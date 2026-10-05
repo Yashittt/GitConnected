@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in · GitConnected</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400..800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.48.0/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <div class="hero-page">
+      <!-- This is the logo and theme button -->
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark"><img src="logo.png" alt="GitConnected logo" /></span>
+          GitConnected
+        </div>
+        <button class="icon-btn theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode"><i data-lucide="moon" class="icon-moon"></i><i data-lucide="sun" class="icon-sun"></i></button>
+      </header>
+
+      <!-- This is the welcome text and guest login -->
+      <main class="hero">
+        <h1>Welcome!</h1>
+        <p>Connect with developers, build your teams, and keep every project in one place.</p>
+        <button class="btn btn-primary btn-lg" onclick="loginAsGuest()">
+          Continue as guest
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </main>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

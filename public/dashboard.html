@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard · GitConnected</title>
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@400..800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.48.0/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <!-- This is the sidebar -->
+      <aside class="sidebar">
+        <a class="brand" href="dashboard.html" style="color: inherit; text-decoration: none">
+          <span class="brand-mark"><img src="logo.png" alt="GitConnected logo" /></span>
+          GitConnected
+        </a>
+
+        <!-- These are the project links -->
+        <nav class="nav">
+          <a href="dashboard.html" id="navOverview"><i data-lucide="layout-grid"></i><span>All Projects</span></a>
+          <div class="nav-label">Projects</div>
+          <div id="navProjects"></div>
+        </nav>
+
+        <!-- This is the user, theme button and sign out -->
+        <div class="sidebar-footer">
+          <span class="avatar avatar-icon"><i data-lucide="user"></i></span>
+          <div class="who">
+            <strong>Guest</strong>
+            <small>Signed in</small>
+          </div>
+          <button class="icon-btn theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode"><i data-lucide="moon" class="icon-moon"></i><i data-lucide="sun" class="icon-sun"></i></button>
+          <a class="icon-btn" href="index.html" title="Sign out" aria-label="Sign out"><i data-lucide="log-out"></i></a>
+        </div>
+      </aside>
+
+      <main class="main">
+        <!-- This is the page with all the projects -->
+        <section id="projectListView" hidden>
+          <div class="page-header">
+            <div>
+              <h1>All Projects</h1>
+              <p>Build your teams and keep every project in one place.</p>
+            </div>
+          </div>
+
+          <div id="projects" class="project-grid">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+          </div>
+        </section>
+
+        <!-- This is the page of one project -->
+        <section id="projectDetailView" hidden>
+          <div class="page-header">
+            <div>
+              <a class="breadcrumb" href="dashboard.html"><i data-lucide="arrow-left"></i> All Projects</a>
+              <h1 id="projectTitle">&nbsp;</h1>
+              <p id="projectDescriptionText" class="project-description" hidden></p>
+              <p id="projectMeta">&nbsp;</p>
+            </div>
+            <!-- These are the edit and delete project buttons -->
+            <div class="header-actions" id="projectActions">
+              <button class="btn" onclick="openEditProject()">
+                <i data-lucide="pencil"></i> Edit
+              </button>
+              <button class="btn btn-danger" onclick="deleteProject(currentProjectId)">
+                <i data-lucide="trash-2"></i> Delete Project
+              </button>
+            </div>
+          </div>
+
+          <!-- This is the members list and the add developer form -->
+          <div class="content-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h2>Members</h2>
+                  <p>Developers working on this project</p>
+                </div>
+              </div>
+              <div id="developers"></div>
+            </div>
+
+            <div class="stack">
+              <div class="card">
+                <div class="card-header">
+                  <div>
+                    <h2>Add a Developer</h2>
+                    <p>We'll check the username exists on GitHub</p>
+                  </div>
+                </div>
+                <!-- This is the add developer form -->
+                <form id="addForm" class="card-body">
+                  <div class="field">
+                    <label for="github">GitHub Username</label>
+                    <div class="input-group">
+                      <i data-lucide="at-sign"></i>
+                      <input class="input" id="github" placeholder="octocat" required autocomplete="off" spellcheck="false" />
+                    </div>
+                    <div id="githubStatus" class="gh-status" aria-live="polite"></div>
+                  </div>
+                  <div class="field">
+                    <label for="name">Name</label>
+                    <input class="input" id="name" placeholder="Mona Lisa" autocomplete="off" />
+                  </div>
+                  <div class="field">
+                    <label for="role">Role</label>
+                    <input class="input" id="role" placeholder="Frontend Developer" autocomplete="off" />
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block" id="addSubmit" disabled>
+                    <i data-lucide="user-plus"></i> Add Developer
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- This is the new project popup -->
+    <dialog id="newProjectDialog">
+      <form class="dialog-body" id="newProjectForm">
+        <h2>New Project</h2>
+        <div class="field">
+          <label for="projectName">Project Name</label>
+          <input class="input" id="projectName" placeholder="e.g. Mobile app" required autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="projectDescription">Description <span class="optional">(optional)</span></label>
+          <textarea class="input textarea" id="projectDescription" rows="3" maxlength="200"
+                    placeholder="What is this project about?"></textarea>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn" onclick="newProjectDialog.close()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create project</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- This is the edit project popup -->
+    <dialog id="editProjectDialog">
+      <form class="dialog-body" id="editProjectForm">
+        <h2>Edit Project</h2>
+        <div class="field">
+          <label for="editProjectName">Project Name</label>
+          <input class="input" id="editProjectName" required autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="editProjectDescription">Description <span class="optional">(optional)</span></label>
+          <textarea class="input textarea" id="editProjectDescription" rows="3" maxlength="200"
+                    placeholder="What is this project about?"></textarea>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn" onclick="editProjectDialog.close()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- This is the edit developer popup -->
+    <dialog id="editDeveloperDialog">
+      <form class="dialog-body" id="editDeveloperForm">
+        <h2>Edit Developer</h2>
+        <div class="person" style="margin-bottom: 16px">
+          <img class="avatar avatar-lg" id="editDevAvatar" alt="" onerror="this.style.visibility='hidden'" />
+          <div>
+            <strong id="editDevHeading"></strong>
+            <span class="muted" id="editDevUsername"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>GitHub Username</label>
+          <div class="locked-field" title="The username can't be changed">
+            <i data-lucide="lock"></i>
+            <a id="editDevGithubLink" target="_blank" rel="noopener"></a>
+          </div>
+          <span class="hint">Can't be changed. To use a different account, remove this developer and add the new one.</span>
+        </div>
+        <div class="field">
+          <label for="editDevName">Name</label>
+          <input class="input" id="editDevName" placeholder="Mona Lisa" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="editDevRole">Role</label>
+          <input class="input" id="editDevRole" placeholder="Frontend developer" autocomplete="off" />
+        </div>
+        <p id="editDevError" class="form-error" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="btn" onclick="editDeveloperDialog.close()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="editDevSave">Save changes</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- This is the popup that asks before deleting -->
+    <dialog id="confirmDialog">
+      <form class="dialog-body" method="dialog">
+        <h2 id="confirmTitle"></h2>
+        <p id="confirmText"></p>
+        <div class="dialog-actions">
+          <button value="cancel" class="btn">Cancel</button>
+          <button value="ok" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- This is the small message at the bottom -->
+    <div id="toast" class="toast" role="status"><i data-lucide="check"></i><span></span></div>
+
+    <script src="github-check.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>

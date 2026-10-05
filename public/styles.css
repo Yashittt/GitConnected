@@ -1,0 +1,920 @@
+/* These are the colors for light mode */
+:root {
+  --bg: #ffffff;
+  --bg-inset: #f6f8fa;
+  --surface: #ffffff;
+  --surface-muted: #f6f8fa;
+  --border: #d1d9e0;
+  --text: #1f2328;
+  --text-muted: #59636e;
+  --accent: #0969da;
+  --accent-soft: #ddf4ff;
+  --neutral-muted: rgba(129, 139, 152, 0.15);
+  --btn-bg: #f6f8fa;
+  --btn-hover: #eff2f5;
+  --btn-border: #d1d9e0;
+  --btn-shadow: 0 1px 0 rgba(31, 35, 40, 0.04);
+  --success: #1f883d;
+  --success-hover: #1a7f37;
+  --success-border: rgba(31, 35, 40, 0.15);
+  --success-fg: #1a7f37;
+  --attention: #9a6700;
+  --danger: #d1242f;
+  --danger-emphasis: #cf222e;
+  --danger-soft: #ffebe9;
+  --danger-border: rgba(255, 129, 130, 0.4);
+  --backdrop: rgba(31, 35, 40, 0.5);
+  --glow: rgba(9, 105, 218, 0.1);
+  --radius: 6px;
+  --shadow-lg: 0 8px 24px rgba(66, 74, 83, 0.12), 0 1px 3px rgba(31, 35, 40, 0.12);
+}
+
+/* These are the colors for dark mode */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d1117;
+  --bg-inset: #010409;
+  --surface: #0d1117;
+  --surface-muted: #151b23;
+  --border: #3d444d;
+  --text: #f0f6fc;
+  --text-muted: #9198a1;
+  --accent: #4493f8;
+  --accent-soft: rgba(56, 139, 253, 0.15);
+  --neutral-muted: rgba(101, 108, 118, 0.2);
+  --btn-bg: #212830;
+  --btn-hover: #262c36;
+  --btn-border: #3d444d;
+  --btn-shadow: none;
+  --success: #238636;
+  --success-hover: #29903b;
+  --success-border: rgba(240, 246, 252, 0.1);
+  --success-fg: #3fb950;
+  --attention: #d29922;
+  --danger: #f85149;
+  --danger-emphasis: #da3633;
+  --danger-soft: rgba(248, 81, 73, 0.1);
+  --danger-border: rgba(248, 81, 73, 0.4);
+  --backdrop: rgba(1, 4, 9, 0.8);
+  --glow: rgba(99, 102, 241, 0.22);
+  --shadow-lg: 0 8px 24px #010409;
+}
+
+/* This shows the moon or sun on the theme button */
+.theme-toggle .icon-sun,
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+/* These are the basic page styles */
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+}
+h1 {
+  font-family: "Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-size: 14px;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.muted {
+  color: var(--text-muted);
+}
+.lucide {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+/* This is the page layout with the sidebar */
+.app {
+  display: grid;
+  grid-template-columns: 256px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* This is the sidebar */
+.sidebar {
+  background: var(--bg-inset);
+  border-right: 1px solid var(--border);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/* This is the logo and app name */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--text);
+  color: var(--bg);
+  display: grid;
+  place-items: center;
+}
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* These are the links in the sidebar */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  padding-left: 8px;
+  margin-left: -8px;
+}
+.nav-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 16px 0 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+}
+.nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  color: var(--text);
+}
+.nav a .lucide {
+  color: var(--text-muted);
+}
+.nav a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav a:hover {
+  background: var(--neutral-muted);
+  text-decoration: none;
+}
+.nav a.active {
+  background: var(--neutral-muted);
+  font-weight: 600;
+}
+.nav a.active::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: calc(50% - 12px);
+  width: 4px;
+  height: 24px;
+  border-radius: var(--radius);
+  background: var(--accent);
+}
+
+/* This shows the delete button when hovering a project */
+.nav-item {
+  position: relative;
+}
+.nav-item a {
+  padding-right: 36px;
+}
+.nav-delete {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+.nav-item:hover .nav-delete,
+.nav-delete:focus-visible {
+  opacity: 1;
+}
+@media (hover: none) {
+  .nav-delete {
+    opacity: 1;
+  }
+}
+
+/* This is the user part at the bottom of the sidebar */
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 8px 0;
+  border-top: 1px solid var(--border);
+}
+.sidebar-footer .who {
+  flex: 1;
+  line-height: 1.3;
+}
+.sidebar-footer .who small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* This is the main part of the page */
+.main {
+  padding: 24px 32px 48px;
+  max-width: 1280px;
+  width: 100%;
+}
+
+/* This is the title at the top of the page */
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+.page-header p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+}
+.page-header .project-description {
+  max-width: 680px;
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 15px;
+}
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.breadcrumb:hover {
+  color: var(--accent);
+}
+
+/* This puts the members list and the form side by side */
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* These are the cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface-muted);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.card-header p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.card-body {
+  padding: 16px;
+}
+
+/* These are the project cards */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  color: var(--text);
+}
+/* This makes the whole project card clickable */
+.stretched {
+  color: var(--accent);
+}
+.stretched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+}
+.project-card:hover .stretched {
+  text-decoration: underline;
+}
+.project-card .icon-btn {
+  position: relative;
+  z-index: 1;
+}
+.project-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.project-icon {
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+}
+.project-card h3 {
+  font-size: 14px;
+  word-break: break-word;
+}
+.project-card .description {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.project-card .meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* This is the add project box */
+.add-card {
+  display: grid;
+  place-items: center;
+  min-height: 118px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.08s, border-color 0.08s, color 0.08s;
+}
+.add-card .lucide {
+  width: 24px;
+  height: 24px;
+}
+.add-card:hover {
+  background: var(--surface-muted);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.add-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* These are the buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  box-shadow: var(--btn-shadow);
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.08s, border-color 0.08s, color 0.08s;
+}
+.btn:hover {
+  background: var(--btn-hover);
+  text-decoration: none;
+}
+.btn:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.btn-primary {
+  background: var(--success);
+  border-color: var(--success-border);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--success-hover);
+}
+.btn-danger {
+  color: var(--danger);
+}
+.btn-danger:hover {
+  background: var(--danger-emphasis);
+  border-color: var(--danger-emphasis);
+  color: #fff;
+}
+.btn-block {
+  width: 100%;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* These are the small icon buttons */
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--radius);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.icon-btn-sm {
+  width: 24px;
+  height: 24px;
+}
+.icon-btn:hover {
+  background: var(--neutral-muted);
+  color: var(--text);
+  text-decoration: none;
+}
+.icon-btn.danger:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* These are the form inputs */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.field label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.field .hint {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.input {
+  height: 32px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+.textarea {
+  height: auto;
+  padding: 8px 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.field .optional {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.input::placeholder {
+  color: var(--text-muted);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.input-group {
+  position: relative;
+}
+.input-group .lucide {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.input-group .input {
+  padding-left: 32px;
+}
+
+/* This is the members table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  background: var(--surface-muted);
+  border-bottom: 1px solid var(--border);
+}
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+.table tbody tr:hover {
+  background: var(--surface-muted);
+}
+.table .actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* This is the developer picture and name */
+.person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.person strong {
+  display: block;
+  font-weight: 600;
+}
+.person a {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.person a:hover {
+  color: var(--accent);
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-muted);
+  box-shadow: 0 0 0 1px var(--border);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.avatar-icon {
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+}
+.avatar-lg {
+  width: 48px;
+  height: 48px;
+}
+/* This is the role label */
+.badge {
+  display: inline-block;
+  padding: 0 7px;
+  line-height: 18px;
+  border-radius: 2em;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.badge:empty {
+  border-style: dashed;
+  font-style: italic;
+  opacity: 0.8;
+}
+.badge:empty::after {
+  content: "TBD";
+}
+
+/* This is the GitHub username that cannot be changed */
+.locked-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+.locked-field a {
+  color: var(--text);
+  font-weight: 600;
+}
+.locked-field a:hover {
+  color: var(--accent);
+}
+.form-error {
+  margin: 0 0 8px;
+  color: var(--danger);
+  font-size: 13px;
+}
+
+/* This is the GitHub check message */
+.gh-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 0;
+}
+.gh-status:empty {
+  display: none;
+}
+.gh-status span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gh-status .gh-profile {
+  color: var(--text);
+  font-weight: 600;
+}
+.gh-status .gh-profile:hover {
+  color: var(--accent);
+}
+.gh-status.ok .lucide {
+  color: var(--success-fg);
+  margin-left: auto;
+}
+.gh-status.bad,
+.gh-status.bad .lucide {
+  color: var(--danger);
+}
+.gh-status.error .lucide {
+  color: var(--attention);
+}
+.avatar-xs {
+  width: 20px;
+  height: 20px;
+}
+.input.is-valid {
+  border-color: var(--success-fg);
+}
+.input.is-invalid {
+  border-color: var(--danger);
+}
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* This shows when there is nothing to show yet */
+.empty {
+  text-align: center;
+  padding: 32px;
+  color: var(--text-muted);
+}
+.empty-icon {
+  margin: 0 auto 8px;
+  display: grid;
+  place-items: center;
+}
+.empty-icon .lucide {
+  width: 24px;
+  height: 24px;
+}
+.empty h3 {
+  color: var(--text);
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.empty p {
+  margin: 0 0 16px;
+}
+/* This is the loading box */
+.skeleton {
+  height: 96px;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--surface-muted), var(--neutral-muted), var(--surface-muted));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* These are the popup forms */
+dialog {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0;
+  width: min(440px, calc(100% - 32px));
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+dialog::backdrop {
+  background: var(--backdrop);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.dialog-body {
+  padding: 16px;
+}
+.dialog-body h2 {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+.dialog-body h2 + p {
+  margin-top: -12px;
+}
+.dialog-body > p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* This is the small message at the bottom */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 16px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* This is the login page */
+.hero-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse 70% 55% at 50% 100%, var(--glow), transparent 70%), var(--bg);
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 16px 15vh;
+}
+.hero h1 {
+  font-size: clamp(48px, 9vw, 96px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+.hero p {
+  max-width: 620px;
+  margin: 20px 0 36px;
+  font-size: clamp(17px, 2vw, 21px);
+  color: var(--text-muted);
+  text-wrap: balance;
+}
+.btn-lg {
+  height: 52px;
+  padding: 0 28px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* This changes the layout for smaller screens */
+@media (max-width: 1000px) {
+  .content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sidebar {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar .nav {
+    display: none;
+  }
+  .sidebar-footer {
+    margin-left: auto;
+    border-top: none;
+    padding: 0;
+  }
+  .sidebar-footer .who {
+    display: none;
+  }
+  .main {
+    padding: 24px 16px 40px;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .table .hide-sm {
+    display: none;
+  }
+  .table th,
+  .table td {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
